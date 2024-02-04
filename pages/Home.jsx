@@ -22,8 +22,11 @@ function Home() {
     // Preload the audio file
     const audio = new Audio(meditationSound);
     audio.preload = "auto";
-    setMeditationAudio(audio);
+    audio.addEventListener('loadedmetadata', () => {
+      setMeditationAudio(audio);
+    });
   }, []);
+  
 
   const handleSubmit = async () => {
     try {
