@@ -45,7 +45,7 @@ function Home() {
 
   return (
     <>
-      <h1 style={{ marginTop: '-150px', marginBottom: '120px'}}>How have you felt since your last MEDITATION?</h1>
+      <h1 style={{ marginTop: '-150px', marginBottom: '120px'}}>How have you felt since your last meditation?</h1>
         <div className="slider-container">
           <span style = {{ marginRight: '30px', fontSize: '25px'}}>Calm</span>
             <input
