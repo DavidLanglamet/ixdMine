@@ -26,18 +26,23 @@ function Home() {
   }, []);
 
   const handleSubmit = async () => {
-    // Add document to database
-    const docRef = await setDoc(doc(db, "myCollection", "setStress"), {
-      field1: value,
-    });
-    alert("Document written to Database");
+    try {
+      // Add document to database
+      const docRef = await setDoc(doc(db, "myCollection", "setStress"), {
+        field1: value,
+      });
+      console.log("Document written to Database");
+    } catch (error) {
+      console.error("Error writing document:", error);
+    }
     
     if (meditationAudio) {
       // Play the sound when the button is clicked
       meditationAudio.play();
     }
     console.log({value});
-  };  
+  };
+  
 
   const handleChange = (event) => {
     setValue(event.target.value);
