@@ -6,7 +6,7 @@ const Settings = () => {
   return (
     <>
         <div >
-        <h2 style={{ marginBottom: '120px', textAlign: 'center', fontSize: '46px', lineHeight: '3' }}>
+        <h2 style={{ marginBottom: '120px', textAlign: 'center', fontSize: '34px', lineHeight: '3' }}>
           <div>Step 1: Wear the Fitbit to collect heart rate data.</div>
           <div>Step 2: Refresh the Fitbit app to upload the data.</div>
           <div>Step 3: Set your stress level and click submit.</div>
