@@ -8,7 +8,7 @@ This is an interdisciplinary project, we combine the fields of computer science 
 
 If you want to learn more about the design aspects of this project, you can reach out to our product designer, Freia Antonia https://www.instagram.com/freia_antonia/
 We hope to create value by creating a neoanalogue artifact that  translates data about the personal stress level and the body data of the heart rate into a pleasing visualisation that is both meaningful and impactful.
-The artifact should help users to meditate and gain insight about their mental load. If you want to learn more about our philosophy, to to the "Abstract" file.
+The artifact should help users to meditate and gain insight about their mental load. If you want to learn more about our philosophy, go to the "Abstract" file.
 
 Technical Setup:
 
