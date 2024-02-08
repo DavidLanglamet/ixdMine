@@ -4,11 +4,17 @@
 
 # Project Overview
 Balance is a project focused on integrating Fitbit data to visually represent both heart rate and stress levels. Our primary objective is to offer a unique and engaging visualization of this data.
+This is an interdisciplinary project, we combine the fields of computer science & product design to realise a neoanalogue artifact for the visualization of body data.
 
-# Features
-Daruma Shape Integration: We are incorporating a Daruma shape to display heart rate data. The Daruma's surface will dynamically reflect the user's heart rate, providing an intuitive representation.
+If you want to learn more about the design aspects of this project, you can reach out to our product designer, Freia Antonia https://www.instagram.com/freia_antonia/
+We hope to create value by creating a neoanalogue artifact that  translates data about the personal stress level and the body data of the heart rate into a pleasing visualisation that is both meaningful and impactful.
+The artifact should help users to meditate and gain insight about their mental load. If you want to learn more about our philosophy, to to the "Abstract" file.
 
-LED Lights Integration: Complementing the Daruma, we have integrated LED lights controlled by a ESP32 ­WROOM ­DA. We are exploring the feasibility of individually controlling each LED lamp to represent stress levels. The chosen color range spans from dark blue for calm states to white for high-stress situations.
+Technical Setup:
+
+
+
+We have integrated LED lights controlled by a ESP32 ­WROOM ­DA. We are exploring the feasibility of individually controlling each LED lamp to represent stress levels. The chosen color range spans from dark blue for calm states to white for high-stress situations.
 
 # Technical Details
 Breadbord and jumpers, Microcontroller ESP32, D-MOSFET, LED Strip, Stepper Motor, Resistors 1200 +- 5% and 870 +- 1%
