@@ -3,7 +3,7 @@ const clientId = '23RMZN';
 const clientSecret = '722a1a15200ffb520e355a7a40328b1d';
 const redirectUri = 'http://localhost';
 const authorizeUrl = 'https://www.fitbit.com/oauth2/authorize';
-const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyM1JNWk4iLCJzdWIiOiI3TVdWNjkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJlY2cgcnNldCByb3h5IHJudXQgcnBybyByc2xlIHJjZiByYWN0IHJsb2MgcnJlcyByd2VpIHJociBydGVtIiwiZXhwIjoxNzA1ODUxNTY2LCJpYXQiOjE3MDU4MjI3NjZ9.KNai6tG1dnMpi9B51wfJ8C_PS6VIPALc93fwSVx-S1M'
+const accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyM1JORkciLCJzdWIiOiI3TVdWNjkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyaHIgcnNsZSIsImV4cCI6MTcwOTg5MTk1OSwiaWF0IjoxNzA3Mjk5OTU5fQ.qbXxYufXSerwRdSoW14UwEFu3qZXLQjz8BvH4O_Kk40"
 const apiUrl = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1w.json';
 
 const minReadingsThreshold = 10; // Adjust as needed

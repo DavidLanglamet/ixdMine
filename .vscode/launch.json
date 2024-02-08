@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/zohre/OneDrive/Desktop/Uni/App/CodingIxD",
-      "program": "c:/Users/zohre/OneDrive/Desktop/Uni/App/CodingIxD/build/Debug/outDebug",
+      "cwd": "c:/Users/zohre/OneDrive/Desktop/Uni/balance/my_repository",
+      "program": "c:/Users/zohre/OneDrive/Desktop/Uni/balance/my_repository/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
