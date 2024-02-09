@@ -5,31 +5,33 @@ import '../src/App.css';
 import './Slider.css';
 
 import '../firebaseConfig'; // Add this line prevent firebase not loading error
+
 import { getFirestore, addDoc, doc, setDoc, collection, getDocs } from "firebase/firestore";
 // Import sound file
 import meditationSound from './gong.mp3';
 // Provided JavaScript code snippet
 // Place it above the Home component definition
-const axios = require('axios');
+import axios from 'axios';
+
+//const axios = require('axios');
 const clientId = '23RMZN';
 const clientSecret = '722a1a15200ffb520e355a7a40328b1d';
 const redirectUri = 'http://localhost';
 const authorizeUrl = 'https://www.fitbit.com/oauth2/authorize';
 const accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyM1JORkciLCJzdWIiOiI3TVdWNjkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyaHIgcnNsZSIsImV4cCI6MTcwOTg5MTk1OSwiaWF0IjoxNzA3Mjk5OTU5fQ.qbXxYufXSerwRdSoW14UwEFu3qZXLQjz8BvH4O_Kk40"
-const apiUrl = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
-//'https://api.fitbit.com/1/user/-/activities/heart/date/today/1w.json';
+const apiUrl = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1w.json';
 
 const minReadingsThreshold = 10; // Adjust as needed
 
 // Function to fetch heart rate data from Fitbit API : https://dev.fitbit.com/build/reference/device-api/heart-rate/
 async function fetchHeartRateData(lastMeditationTime) {
   try {
-    let apiUrl = apiUrl ;
-    if (!lastMeditationTime) {
+    let apiUrl = apiUrl;
+    if (lastMeditationTime) {
       // If lastMeditationTime is null, fetch data starting from the first timestamp of the day, so we won't get error
       const today = new Date().toISOString().split('T')[0];
-      apiUrl = `https://api.fitbit.com/1/user/-/activities/heart/date/${today}/1d.json`;
-    }
+      apiUrl = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
+        }
 
     const response = await axios.get(apiUrl, {
       headers: {
@@ -160,3 +162,4 @@ function Home() {
     </>
   );
 }
+export default Home;
