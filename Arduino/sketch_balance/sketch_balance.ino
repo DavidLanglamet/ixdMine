@@ -3,15 +3,20 @@
 #include "addons/TokenHelper.h" //Provide the token generation process info.
 #include "addons/RTDBHelper.h" //Provide the RTDB payload printing info and other helper functions.
 
-#define API_KEY "REPLACE_WITH_YOUR_FIREBASE_PROJECT_API_KEY"
-#define DATABASE_URL "REPLACE_WITH_YOUR_FIREBASE_DATABASE_URL"
+// Firebase connection data
 
-//Define Firebase Data object
+#define API_KEY "AIzaSyAbayEsSI9NgzFiRI8WfDxDvuGzl2w7or4"
+#define DATABASE_URL "https://firecode-56ca4-default-rtdb.europe-west1.firebasedatabase.app"
+
+// Define Firebase Data object
+
 FirebaseData fbdo;
 
 FirebaseAuth auth;
 FirebaseConfig config;
-bool signupOK = false;
+bool signupOK = false; 
+
+// constants for the wifi connection
 
 const char* ssid = "SSID"; //need to be adjusted accordingly
 const char* password = "PASSWORD"; //need to be adjusted accordingly
