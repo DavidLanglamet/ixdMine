@@ -1,5 +1,17 @@
 #include <AccelStepper.h>  // from https://www.airspayce.com/mikem/arduino/AccelStepper/
 #include <WiFi.h>
+#include "addons/TokenHelper.h" //Provide the token generation process info.
+#include "addons/RTDBHelper.h" //Provide the RTDB payload printing info and other helper functions.
+
+#define API_KEY "REPLACE_WITH_YOUR_FIREBASE_PROJECT_API_KEY"
+#define DATABASE_URL "REPLACE_WITH_YOUR_FIREBASE_DATABASE_URL"
+
+//Define Firebase Data object
+FirebaseData fbdo;
+
+FirebaseAuth auth;
+FirebaseConfig config;
+bool signupOK = false;
 
 const char* ssid = "SSID"; //need to be adjusted accordingly
 const char* password = "PASSWORD"; //need to be adjusted accordingly
@@ -119,6 +131,24 @@ void setup() {
 
     Serial.println("Connected to the WiFi network");
 
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+  // Connect to Firebase
+
+    /* Assign the api key (required) */
+    config.api_key = API_KEY;
+
+    /* Assign the RTDB URL (required) */
+    config.database_url = DATABASE_URL;
+
+    /* Sign up */
+    if (Firebase.signUp(&config, &auth, "", "")){
+      Serial.println("ok");
+      signupOK = true;
+    }
+    else  {
+      Serial.printf("%s\n", config.signer.signupError.message.c_str());
+    }
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––  
 
@@ -280,6 +310,18 @@ void leds(void *pvParameters) {
     xSemaphoreGive(taskMutex);
     
     vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
+}
+
+void getData() {
+  if (Firebase.RTDB.getInt(&fbdo, "/test/int")) {
+    if (fbdo.dataType() == "int") {
+      intValue = fbdo.intData();
+      Serial.println(intValue);
+    }
+  }
+  else {
+    Serial.println(fbdo.errorReason());
   }
 }
 
