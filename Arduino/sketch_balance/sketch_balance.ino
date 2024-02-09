@@ -14,6 +14,7 @@ FirebaseData fbdo;
 
 FirebaseAuth auth;
 FirebaseConfig config;
+unsigned long sendDataPrevMillis = 0;
 bool signupOK = false; 
 
 // constants for the wifi connection
@@ -319,9 +320,9 @@ void leds(void *pvParameters) {
 }
 
 void getData() {
-  if (Firebase.RTDB.getInt(&fbdo, "/test/int")) {
+  if (Firebase.RTDB.getInt(&fbdo, "/test/int")) { // Attention, wrong schema!!!!
     if (fbdo.dataType() == "int") {
-      intValue = fbdo.intData();
+      HR = fbdo.intData();
       Serial.println(intValue);
     }
   }
@@ -331,6 +332,10 @@ void getData() {
 }
 
 void loop() {
+  if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)){
+    getData()
+  }
+  delay(5000); // 5 Seconds
 }
 
 
