@@ -1,5 +1,6 @@
 #include <AccelStepper.h>  // from https://www.airspayce.com/mikem/arduino/AccelStepper/
 #include <WiFi.h>
+#include <Firebase_ESP_Client.h>
 #include "addons/TokenHelper.h" //Provide the token generation process info.
 #include "addons/RTDBHelper.h" //Provide the RTDB payload printing info and other helper functions.
 
@@ -21,9 +22,6 @@ bool signupOK = false;
 
 const char* ssid = "SSID"; //need to be adjusted accordingly
 const char* password = "PASSWORD"; //need to be adjusted accordingly
-
-
-// https://www.circuitstate.com/tutorials/how-to-write-parallel-multitasking-applications-for-esp32-using-freertos-arduino/ relate to this for concurrency
 
 // https://www.rapidtables.com/web/color/RGB_Color.html for the colour codes
 
@@ -333,7 +331,7 @@ void getData() {
 
 void loop() {
   if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)){
-    getData()
+    getData();
   }
   delay(5000); // 5 Seconds
 }
