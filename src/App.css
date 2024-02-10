@@ -50,3 +50,9 @@
   margin-top: 50px;
 }
 
+body {
+  background: linear-gradient(to bottom, rgb(166, 166, 255), rgb(248, 249, 255) 25%);
+  height: 100vh; /* Ensure the gradient covers the entire viewport */
+  margin: 0; /* Remove default body margin */
+}
+

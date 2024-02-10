@@ -11,7 +11,7 @@
     -webkit-appearance: none;
     appearance: none;
     outline: none;
-    background: linear-gradient(to right, blue, white);
+    background: linear-gradient(to right, rgb(15, 38, 151), white);
     border-radius: 20px;
     border: 1px solid #676767;
     margin: 0 10px;
@@ -24,10 +24,24 @@
     appearance: none;
     width: 40px; /* Increase the width to expand the clickable area */
     height: 40px; /* Increase the height to expand the clickable area */
-    background: transparent;
-    border: 3px solid #676767; /* Add border color */
+    background: white;
+    border: 1px solid #676767; /* Add border color */
     border-radius: 50%;
     cursor: pointer;
+  }
+  
+  .button {
+    background: linear-gradient(to right, rgb(15, 38, 151), rgb(199, 196, 255)); /* Add gradient effect */
+    border: none;
+    /* border-radius: 20px; */
+    padding: 10px 20px;
+    font-size: 25px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .button span {
+    margin-left: 10px; /* Adjust spacing between text and arrow */
   }
   
   

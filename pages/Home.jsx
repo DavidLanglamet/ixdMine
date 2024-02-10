@@ -134,9 +134,9 @@ function Home() {
 
   return (
     <>
-      <h1 style={{ marginTop: '-150px', marginBottom: '120px'}}>How have you felt since your last meditation?</h1>
+      <h1 style={{ marginTop: '-20px', marginBottom: '80px', fontSize: '45px'}}>How have you felt since your last meditation?</h1>
         <div className="slider-container">
-          <span style = {{ marginRight: '30px', fontSize: '25px'}}>Calm</span>
+          <span style = {{ marginRight: '30px', fontSize: '22px', fontWeight: 'bold'}}>Calm</span>
             <input
               type="range"
               min="0"
@@ -145,20 +145,22 @@ function Home() {
               onChange={handleChange}
               className="slider"
             />
-          <span style = {{ marginLeft: '30px', fontSize: '25px'}}>Stressed</span>
+          <span style = {{ marginLeft: '30px', fontSize: '22px', fontWeight: 'bold'}}>Stressed</span>
         </div>
         <div style={{ marginTop: '90px' }}>
-          <button onClick={handleSubmit} style={{ fontSize: '25px', padding: '10px 20px', borderRadius: '50px', border: '1px solid #676767' }}>Start Meditation</button>
+          <button onClick={handleSubmit} className="button">
+            Start Meditation
+            <span>&rarr;</span>
+          </button>
         </div>
-        <div style={{ position: 'absolute', bottom: '20px', right: '20px' }}>
+        <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
           <Link to="/settings">
-            <button style = {{ background: 'transparent', width: '110px'}}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-              </svg>
+            <button style = {{ background: 'white', width: '130px', height:'50px', marginTop: '10px', color: 'black', fontWeight: 'bold'}}>
+              Tutorial
             </button>
           </Link>
         </div>
+
     </>
   );
 }
