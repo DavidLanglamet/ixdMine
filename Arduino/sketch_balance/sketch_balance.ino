@@ -318,10 +318,10 @@ void leds(void *pvParameters) {
 }
 
 void getData() {
-  if (Firebase.RTDB.getInt(&fbdo, "/test/int")) { // Attention, wrong schema!!!!
+  if (Firebase.RTDB.getInt(&fbdo, "/Stress/value")) { // schema according to Darren(?!)
     if (fbdo.dataType() == "int") {
       HR = fbdo.intData();
-      Serial.println(intValue);
+      Serial.println(HR);
     }
   }
   else {
