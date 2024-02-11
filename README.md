@@ -45,6 +45,21 @@ Breadbord and jumpers, Microcontroller ESP32, D-MOSFET, LED Strip, Stepper Motor
 
 Our prototype is based on a ESP32 ­WROOM ­DA micro controller which concurrently handles the translates of the input data (pulse and perceived stress level) to the LED strip as well as the Stepper Motor which are handeling the illumination and movement of our prototype respectively.
 
+## Credits
+
+### Code References
+- **Sine Fade Function**: Code from [sine_fade.ino](sine_fade/sine_fade.ino) in [eLAB GitLab](link)
+- **Parallel Multitasking Applications for ESP32**: Referenced [CIRCUITSTATE Electronics](https://www.circuitstate.com/) for concurrency techniques
+
+### API Connections
+- **Fitbit API**: Authorization and heart rate variability information obtained from [fitbit.com](https://www.fitbit.com/)
+- **Code Tutorials**: Inspiration and guidance from [franchyze923's GitHub Repository](https://github.com/franchyze923/Code_From_Tutorials) for API connection
+
+### Deployment Resources
+- **Cloudflare and GitHub Pages**: Deployment assistance from [Cloudflare Pages and GitHub tutorial on YouTube](https://www.youtube.com/watch?v=MpFO4Zr0EPE)
+
+
+
 
 
 
