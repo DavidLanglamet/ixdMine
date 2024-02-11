@@ -24,7 +24,7 @@ Our prototype is based on a ESP32 ­WROOM ­DA micro controller which concurrent
 # Conclusion
 Our overarching goal is to seamlessly merge health data with an engaging and culturally significant visualization. We are enthusiastic about the potential impact of the Balance project and are committed to continuous refinement.
 
-Hosting: Cloudflare pages
+Hosting: Cloudflare pages : https://ixdmine.pages.dev/
 
 
 https://dev.fitbit.com/build/reference/web-api/
