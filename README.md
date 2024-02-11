@@ -4,11 +4,13 @@
 
 # Project Overview
 Balance is a project focused on integrating Fitbit data to visually represent both heart rate and stress levels. Our primary objective is to offer a unique and engaging visualization of this data.
-This is an interdisciplinary project, we combine the fields of computer science & product design to realise a neoanalogue artifact for the visualization of body data. We have integrated LED lights controlled by a ESP32 ­WROOM ­DA. We are exploring the feasibility of individually controlling each LED lamp to represent stress levels. The chosen color range spans from dark blue for calm states to white for high-stress situations.
+This is an interdisciplinary project, we combine the fields of computer science & product design to realise a neoanalogue artifact for the visualization of body data. 
+Over the day, a wearable and a questionnaire measure the pulse and subjective stress levels. The collected data is then used as a baseline and transferred to the artifact. 
+The spinning top's illumination, cast onto a room ceiling, mirrors specific shades of light, reshaping the circadian rhythm akin to the sun's cycle. As stress fluctuates throughout the day, this light morphs from a bright white to a calming dark blue. Lower stress levels yield an initial blue hue, aiming to evoke serene associations with nature, like the sky or ocean. As the light dims and spinning ceases, the meditator decides whether to prolong meditation or conclude the session.
 
 If you want to learn more about the design aspects of this project, you can reach out to our product designer, Freia Antonia https://www.instagram.com/freia_antonia/
 We hope to create value by creating a neoanalogue artifact that  translates data about the personal stress level and the body data of the heart rate into a pleasing visualisation that is both meaningful and impactful.
-The artifact should help users to meditate and gain insight about their mental load. If you want to learn more about our philosophy, go to the "Abstract" file.
+The artifact should help users to meditate and gain insight about their mental load. If you want to learn more about our philosophy, go to the [Abstract](https://github.com/DavidLanglamet/ixdMine/blob/main/Abstract.md) file.
 
 # Meditation Device Functionality Setup
 
@@ -57,6 +59,11 @@ Our prototype is based on a ESP32 ­WROOM ­DA micro controller which concurrent
 
 ### Deployment Resources
 - **Cloudflare and GitHub Pages**: Deployment assistance from [Cloudflare Pages and GitHub tutorial on YouTube](https://www.youtube.com/watch?v=MpFO4Zr0EPE)
+
+
+# License 
+
+[MIT LICENCE](https://github.com/DavidLanglamet/ixdMine/blob/main/LICENSE)
 
 
 
