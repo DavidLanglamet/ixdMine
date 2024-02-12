@@ -12,6 +12,10 @@ If you want to learn more about the design aspects of this project, you can reac
 We hope to create value by creating a neoanalogue artifact that  translates data about the personal stress level and the body data of the heart rate into a pleasing visualisation that is both meaningful and impactful.
 The artifact should help users to meditate and gain insight about their mental load. If you want to learn more about our philosophy, go to the [Abstract](https://github.com/DavidLanglamet/ixdMine/blob/main/Abstract.md) file.
 
+# User Journey Movie
+
+https://vimeo.com/912333970
+
 # Meditation Device Functionality Setup
 
 This repository contains code for enabling functionality in our meditation device. 
