@@ -28,7 +28,7 @@ firebaseConfig.js: Holds authentication information for Firebase connection
 Home.jsx: Initializes database connection and handles data submission
 Hosting: Cloudflare pages : https://ixdmine.pages.dev/
 
-[Data Colection and Integration](https://github.com/DavidLanglamet/ixdMine/blob/main/doc/Implementation%20Details.png)
+![Data Colection and Integration](https://github.com/DavidLanglamet/ixdMine/blob/main/doc/Implementation%20Details.png)
 
 # Installation Steps
 
@@ -49,7 +49,7 @@ Breadbord and jumpers, Microcontroller ESP32, D-MOSFET, LED Strip, Stepper Motor
 
 Our prototype is based on a ESP32 ­WROOM ­DA micro controller which concurrently handles the translates of the input data (pulse and perceived stress level) to the LED strip as well as the Stepper Motor which are handeling the illumination and movement of our prototype respectively.
 
-[final setup with all components](https://github.com/DavidLanglamet/ixdMine/blob/main/doc/Usage.png)
+![final setup with all components](https://github.com/DavidLanglamet/ixdMine/blob/main/doc/Usage.png)
 
 ## Credits
 
