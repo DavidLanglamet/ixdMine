@@ -6,9 +6,8 @@ import './Slider.css';
 
 import '../firebaseConfig'; // Add this line prevent firebase not loading error
 import 'firebase/database'
-
-import { getFirestore, addDoc, doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { getDatabase, ref, set } from 'firebase/database';
+
 // Import sound file
 import meditationSound from './gong.mp3';
 // Provided JavaScript code snippet
