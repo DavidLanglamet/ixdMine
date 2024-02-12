@@ -32,15 +32,27 @@ Hosting: Cloudflare pages : https://ixdmine.pages.dev/
 
 # Installation Steps
 
-Arduino IDE Setup:
-Install necessary boards (Arduino AVR, Arduino ESP32)
-Select ESP32 WROOM DA module in board settings
-Library Integration:
-Locate necessary libraries in the "Arduino" folder
-Integrate libraries in IDE preferences (Preferences -> Sketchbook Location -> <path to/git/ixdMine/Arduino>)
-Usage
-Run the system to compute the user's body data.
-Upon data retrieval, the system initiates the meditation session tailored to the user's needs.
+## Arduino IDE Setup:
+
+1. **Install necessary boards**:
+   - Arduino AVR
+   - Arduino ESP32
+   
+2. **Select ESP32 WROOM DA module** in board settings
+
+## Library Integration:
+
+1. **Locate necessary libraries** in the "Arduino" folder
+2. **Integrate libraries** in IDE preferences:
+   - Go to `Preferences`
+   - Navigate to `Sketchbook Location`
+   - Set the path to `<path to/git/ixdMine/Arduino>`
+
+# Usage:
+
+1. **Run the system** to compute the user's body data.
+2. Upon data retrieval, the system **initiates the meditation session** tailored to the user's needs.
+
 For detailed installation instructions and code implementation, refer to the repository files.
 
 
