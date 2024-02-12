@@ -5,8 +5,10 @@ import '../src/App.css';
 import './Slider.css';
 
 import '../firebaseConfig'; // Add this line prevent firebase not loading error
+import 'firebase/database'
 
 import { getFirestore, addDoc, doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { getDatabase, ref, set } from 'firebase/database';
 // Import sound file
 import meditationSound from './gong.mp3';
 // Provided JavaScript code snippet
@@ -93,7 +95,7 @@ function Home() {
   const [lastMeditationTime, setLastMeditationTime] = useState(null); // Initialize last_meditation_time variable
 
   //initialize database
-  const db = getFirestore();
+  const db = getDatabase();
 
   // Create an Audio object with the sound file
   const [meditationAudio, setMeditationAudio] = useState(null);
@@ -108,8 +110,8 @@ function Home() {
   const handleSubmit = async () => {
     try {
       // Add document to database
-      const docRef = await setDoc(doc(db, "myCollection", "setStress"), {
-        field1: value,
+      const docRef = await set(ref(db, 'Stress'), {
+        value,
       });
       console.log("Document written to Database");
 
