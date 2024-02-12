@@ -65,26 +65,28 @@ Our prototype is based on a ESP32 ­WROOM ­DA micro controller which concurrent
 - **Cloudflare and GitHub Pages**: Deployment assistance from [Cloudflare Pages and GitHub tutorial on YouTube](https://www.youtube.com/watch?v=MpFO4Zr0EPE)
 
 
-# License 
+## Licenses and Terms of Use
 
-[MIT LICENCE](https://github.com/DavidLanglamet/ixdMine/blob/main/LICENSE)
+### Open Source Licenses:
 
+This project is licensed under the [MIT License](https://github.com/DavidLanglamet/ixdMine/blob/main/LICENSE), which is also utilized by several prominent technologies we incorporate, including:
 
+- [Visual Studio Code](https://github.com/microsoft/vscode)
+- [Babel](https://github.com/babel/babel)
+- [React](https://github.com/facebook/react)
+- [Vite](https://github.com/vitejs/vite)
+- [SWC](https://github.com/swc-project/swc)
 
+### Third-Party Terms and Conditions:
 
+In addition to the open-source licenses, please review the terms and conditions of the following third-party services and platforms used within this project:
 
+- [Fitbit Web API](https://dev.fitbit.com/build/reference/web-api/)
+- [Google Cloud Platform Terms](https://cloud.google.com/terms)
+- [Firebase Terms of Service](https://firebase.google.com/terms)
+- [Firebase Documentation](https://firebase.google.com/docs)
+- [npm Policies and Terms](https://docs.npmjs.com/policies/npm-license)
+- [Cloudflare Website Terms](https://www.cloudflare.com/de-de/website-terms/)
 
+Please ensure compliance with these terms and conditions when using this project or its associated services.
 
-https://dev.fitbit.com/build/reference/web-api/
-
-https://cloud.google.com/terms
-
-https://firebase.google.com/terms
-
-https://firebase.google.com/docs
-
-https://docs.npmjs.com/policies/npm-license
-
-https://www.cloudflare.com/de-de/website-terms/
-
-MIT: vscode, babel, React, Vite, SWC
