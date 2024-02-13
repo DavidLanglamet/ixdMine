@@ -14,7 +14,7 @@ The artifact should help users to meditate and gain insight about their mental l
 
 # User Journey Movie
 
-[Watch an introductory video on the Userjouney](https://vimeo.com/912333970.mp4)
+[Watch an introductory video on the Userjouney](https://vimeo.com/912333970)
 
 # Meditation Device Functionality Setup
 
