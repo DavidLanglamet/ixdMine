@@ -19,8 +19,8 @@ bool signupOK = false;
 
 // constants for the wifi connection
 
-const char* ssid = "EMPTY"; //need to be adjusted accordingly
-const char* password = "EMPTY"; //need to be adjusted accordingly
+const char* ssid = "EMPTYEMPTY"; //need to be adjusted accordingly
+const char* password = "EMPTYEMPTY"; //need to be adjusted accordingly
 
 // https://www.rapidtables.com/web/color/RGB_Color.html for the colour codes
 
@@ -159,6 +159,17 @@ void fetchDataFromFirebase() {
       HR = fbdo.intData();
       Serial.println(HR);
       IR = (int) HR / baserate * 100; 
+    }
+  }
+  else {
+    Serial.println(fbdo.errorReason());
+  }
+
+  if (Firebase.RTDB.getInt(&fbdo, "/Stress/value")) { // schema according to Darren(?!)
+    if (fbdo.dataType() == "int") {
+      stress = fbdo.intData();
+      Serial.print("stress: ");
+      Serial.println(stress);
     }
   }
   else {
