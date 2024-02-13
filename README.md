@@ -14,7 +14,7 @@ The artifact should help users to meditate and gain insight about their mental l
 
 # User Journey Movie
 
-https://vimeo.com/912333970
+[:Balance](https://vimeo.com/912333970)
 
 # Meditation Device Functionality Setup
 
