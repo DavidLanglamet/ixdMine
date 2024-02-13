@@ -76,26 +76,26 @@ int stress = 100; // stress value for test
 
 // Colour stages for intialisation - to be adjusted later
 
-// Stage 1: 
+// Stage 1 (Dark Blue): 
 
 int R1 = 0;
 int G1 = 0;
 int BE1 = 255;
 
-// Stage 2:
+// Stage 2 (Deep Blue):
 
 int R2 = 51;
 int G2 = 51;
 int B2 = 255;
 
-// Stage 3:
+// Stage 3 (Light Blue):
 
 int R3 = 102;
 int G3 = 102;
 int B3 = 255;
 
 
-// Stage 4: 
+// Stage 4 (White): 
 
 int R4 = 255;
 int G4 = 160;
