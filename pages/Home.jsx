@@ -22,19 +22,19 @@ const authorizeUrl = 'https://www.fitbit.com/oauth2/authorize';
 const accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyM1JORkciLCJzdWIiOiI3TVdWNjkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyaHIgcnNsZSIsImV4cCI6MTcwOTg5MTk1OSwiaWF0IjoxNzA3Mjk5OTU5fQ.qbXxYufXSerwRdSoW14UwEFu3qZXLQjz8BvH4O_Kk40"
 const apiUrl = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1w.json';
 
-const minReadingsThreshold = 10; // Adjust as needed
+const minReadingsThreshold = 0; // Adjust as needed
 
 // Function to fetch heart rate data from Fitbit API : https://dev.fitbit.com/build/reference/device-api/heart-rate/
 async function fetchHeartRateData(lastMeditationTime) {
   try {
-    let apiUrl = apiUrl;
+    let apiUrlx = apiUrl;
     if (lastMeditationTime) {
       // If lastMeditationTime is null, fetch data starting from the first timestamp of the day, so we won't get error
       const today = new Date().toISOString().split('T')[0];
-      apiUrl = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
+      apiUrlx = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
         }
 
-    const response = await axios.get(apiUrl, {
+    const response = await axios.get(apiUrlx, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
@@ -65,11 +65,20 @@ async function fetchHeartRateData(lastMeditationTime) {
     for (const [day, values] of Object.entries(heartRateDictionary)) {
       if (values.count >= minReadingsThreshold) {
         const averageHeartRate = values.sum / values.count;
+        const db = getDatabase();
+        const docRef2 = await set(ref(db, 'HeartRate'), {
+          value: averageHeartRate,
+        });
         resultDictionary[day] = averageHeartRate.toFixed(2);
       } else {
         resultDictionary[day] = 'no meditation';
+        const db = getDatabase();
+        const docRef2 = await set(ref(db, 'HeartRate'), {
+          value: 0,
+        });
       }
     }
+
 // error handeling
     return resultDictionary;
   } catch (error) {
@@ -110,13 +119,14 @@ function Home() {
     try {
       // Add document to database
       const docRef = await set(ref(db, 'Stress'), {
-        value,
+        value: value,
       });
       console.log("Document written to Database");
 
       // Update last meditation time
       const currentTimestamp = new Date().toISOString().split('T')[0];
       setLastMeditationTime(currentTimestamp);
+      console.log(fetchHeartRateData(lastMeditationTime))
     } catch (error) {
       console.error("Error writing document:", error);
     }
