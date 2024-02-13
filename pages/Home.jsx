@@ -27,6 +27,7 @@ const minReadingsThreshold = 0; // Adjust as needed
 // Function to fetch heart rate data from Fitbit API : https://dev.fitbit.com/build/reference/device-api/heart-rate/
 async function fetchHeartRateData(lastMeditationTime) {
   try {
+<<<<<<< HEAD
     let apiUrlx = apiUrl;
     if (lastMeditationTime) {
       // If lastMeditationTime is null, fetch data starting from the first timestamp of the day, so we won't get error
@@ -35,6 +36,16 @@ async function fetchHeartRateData(lastMeditationTime) {
         }
 
     const response = await axios.get(apiUrlx, {
+=======
+    let url = apiUrl;
+    if (lastMeditationTime) {
+      // If lastMeditationTime is null, fetch data starting from the first timestamp of the day, so we won't get error
+      const today = new Date().toISOString().split('T')[0];
+      url = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
+        }
+
+    const response = await axios.get(url, {
+>>>>>>> 76517496e319502cd313cc20ce8c03d59e125d3c
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
@@ -63,13 +74,17 @@ async function fetchHeartRateData(lastMeditationTime) {
     // Calculate average heart rate for each day
     const resultDictionary = {};
     for (const [day, values] of Object.entries(heartRateDictionary)) {
-      if (values.count >= minReadingsThreshold) {
+      if (values.count >= minReadingsThreshold) { 
         const averageHeartRate = values.sum / values.count;
+<<<<<<< HEAD
         const db = getDatabase();
         const docRef2 = await set(ref(db, 'HeartRate'), {
           value: averageHeartRate,
         });
         resultDictionary[day] = averageHeartRate.toFixed(2);
+=======
+        resultDictionary[day] = averageHeartRate;//.toFixed(2)
+>>>>>>> 76517496e319502cd313cc20ce8c03d59e125d3c
       } else {
         resultDictionary[day] = 'no meditation';
         const db = getDatabase();
@@ -94,6 +109,7 @@ function printHeartRateDictionary(heartRateDictionary) {
   for (const [day, value] of Object.entries(heartRateDictionary)) {
     console.log(`${day}: ${value}`);
   }
+ 
 }
 
 // Home component definition, except line 91 I didn't anything
@@ -144,6 +160,22 @@ function Home() {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  useEffect(() => {
+    // Call the fetchHeartRateData function here
+    fetchHeartRateData(lastMeditationTime).then(heartRateData => {
+      printHeartRateDictionary(heartRateData);
+      const averageHeartRates = Object.values(heartRateData);
+      const averageHeartRateSum = averageHeartRates.reduce((acc, val) => acc + parseFloat(val), 0);
+      const averageHeartRate = averageHeartRateSum / averageHeartRates.length;
+      console.log(`Average Heart Rate: ${averageHeartRate.toFixed(2)}`);
+      console.log("Heart rate data received successfully.");
+
+    }).catch(error => {
+      console.error("Error fetching heart rate data:", error);
+      
+    });
+  }, [lastMeditationTime]);
+
 
   return (
     <>
