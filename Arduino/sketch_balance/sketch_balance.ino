@@ -12,7 +12,6 @@
 // Define Firebase Data object
 
 FirebaseData fbdo;
-
 FirebaseAuth auth;
 FirebaseConfig config;
 unsigned long sendDataPrevMillis = 0;
@@ -20,8 +19,8 @@ bool signupOK = false;
 
 // constants for the wifi connection
 
-const char* ssid = "SSID"; //need to be adjusted accordingly
-const char* password = "PASSWORD"; //need to be adjusted accordingly
+const char* ssid = "EMPTY"; //need to be adjusted accordingly
+const char* password = "EMPTY"; //need to be adjusted accordingly
 
 // https://www.rapidtables.com/web/color/RGB_Color.html for the colour codes
 
@@ -37,7 +36,7 @@ const float Ratio1 = ((MS * (SPR / 360.00)) * 360.00);  //((MicroSteps * (full s
 
 // init for demonstration flag
 
-bool isDemo = true;
+bool isDemo = false;
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -60,7 +59,7 @@ bool doesRotate = true; // bool for termination check motor
 
 //Pulse
 
-int HR = 125; // trial heart rate
+int HR = 10; // trial heart rate
 int baserate = 60; //trial base rate
 
 // scalation for switch cases for heart rate.
@@ -78,28 +77,32 @@ int stress = 100; // stress value for test
 
 // Stage 1 (Dark Blue): 
 
-int R1 = 0;
-int G1 = 0;
-int BE1 = 255;
+int R_0 = 255;
+int G_0 = 0;
+int B_0 = 0;
+
+int R_1 = 0;
+int G_1 = 0;
+int B_1 = 255;
 
 // Stage 2 (Deep Blue):
 
-int R2 = 51;
-int G2 = 51;
-int B2 = 255;
+int R_2 = 51;
+int G_2 = 51;
+int B_2 = 255;
 
 // Stage 3 (Light Blue):
 
-int R3 = 102;
-int G3 = 102;
-int B3 = 255;
+int R_3 = 102;
+int G_3 = 102;
+int B_3 = 255;
 
 
 // Stage 4 (White): 
 
-int R4 = 255;
-int G4 = 160;
-int B4 = 160;
+int R_4 = 255;
+int G_4 = 160;
+int B_4 = 160;
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -114,114 +117,141 @@ byte stepcount = 1;
 
 SemaphoreHandle_t taskMutex;
 
-
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-void setup() {
-  
-    Serial.begin (115200);
-
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-// Wifi setup
-
-
+void getWLAN() {
     Serial.println("Connecting to WiFi...");
     WiFi.begin(ssid, password);
 
     while (WiFi.status() != WL_CONNECTED) {
         Serial.println("Connecting...");
     }
-
     Serial.println("Connected to the WiFi network");
+}
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-  // Connect to Firebase
+void connectToFirebase() {
+  /* Assign the api key (required) */
+  config.api_key = API_KEY;
 
-    /* Assign the api key (required) */
-    config.api_key = API_KEY;
+  /* Assign the RTDB URL (required) */
+  config.database_url = DATABASE_URL;
 
-    /* Assign the RTDB URL (required) */
-    config.database_url = DATABASE_URL;
+  /* Sign up */
+  if (Firebase.signUp(&config, &auth, "", "")){
+    Serial.println("ok");
+    signupOK = true;
 
-    /* Sign up */
-    if (Firebase.signUp(&config, &auth, "", "")){
-      Serial.println("ok");
-      signupOK = true;
+    Firebase.begin(&config, &auth);
+  }
+  else  {
+    Serial.printf("Error Message %s\n", config.signer.signupError.message.c_str());
+  }
+}
+
+void fetchDataFromFirebase() {
+  Serial.println("FetchData");
+  if (Firebase.RTDB.getInt(&fbdo, "/HeartRate/value")) { // schema according to Darren(?!)
+    if (fbdo.dataType() == "int") {
+      HR = fbdo.intData();
+      Serial.println(HR);
+      IR = (int) HR / baserate * 100; 
     }
-    else  {
-      Serial.printf("%s\n", config.signer.signupError.message.c_str());
+  }
+  else {
+    Serial.println(fbdo.errorReason());
+  }
+}
+
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+void setColor() {
+
+  // depending on IR switch state - maybe needs to be adjusted for fine tune later; also refer to IR calc.
+  
+    Serial.print("Der IR ist: ");
+    Serial.println(IR);
+
+    switch(IR) {
+    
+      case 0 ... 69:
+        ValR = 255;
+        ValG = 30;
+        analogWrite(pinR, R_0);
+        analogWrite(pinG, G_0);
+        analogWrite(pinB, B_0);
+        break;
+
+      case 70 ... 114:
+        ValR = R_1;
+        ValG = G_1;
+        analogWrite(pinR, R_1);
+        analogWrite(pinG, G_1);
+        analogWrite(pinB, B_1);
+        break;
+
+      case 115 ... 164:
+        ValR = R_2;
+        ValG = G_2;
+        analogWrite(pinR, R_2);
+        analogWrite(pinG, G_2);
+        analogWrite(pinB, B_2);   
+        break;
+
+      case 165 ... 204:
+        ValR = R_3;
+        ValG = G_3;
+        analogWrite(pinR, R_3);
+        analogWrite(pinG, G_3);
+        analogWrite(pinB, B_3);    
+        break;
+
+      case 205 ... 500:
+        ValR = R_4;
+        ValG = G_4;
+        analogWrite(pinR, R_4);
+        analogWrite(pinG, G_4);
+        analogWrite(pinB, B_4);     
+        break;
     }
+}
+
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+void setup() {
+  
+  Serial.begin (115200);
+
+  getWLAN();
+  connectToFirebase();
+  fetchDataFromFirebase();
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––  
 
-      //For LED
-     pinMode(pinR, OUTPUT);
-     pinMode(pinG, OUTPUT);
-     pinMode(pinB, OUTPUT);
+  //For LED
+  pinMode(pinR, OUTPUT);
+  pinMode(pinG, OUTPUT);
+  pinMode(pinB, OUTPUT);
 
 
 if (isDemo){
 
 // led init with demonstration values; here stage 4
 
-    ValR = R4;
-    ValG = G4;
-    analogWrite(pinR, R4);
-    analogWrite(pinG, G4);
-    analogWrite(pinB, B4);    
+    ValR = R_4;
+    ValG = G_4;
+    analogWrite(pinR, R_4);
+    analogWrite(pinG, G_4);
+    analogWrite(pinB, B_4);    
 
 // rotation speed init, here for medium speed (2000)
 
     stepper1.setMaxSpeed(2000);
   
 } else {
+  setColor();
 
-  // depending on IR switch state - maybe needs to be adjusted for fine tune later; also refer to IR calc.
-  
-      switch(IR){
-    
-      case 0 ... 69:
-        ValR = 255;
-        ValG = 0;
-        analogWrite(pinR, 255);
-        analogWrite(pinG, 0);
-        analogWrite(pinB, 0);
-        break;
-
-      case 70 ... 114:
-        ValR = R1;
-        ValG = G1;
-        analogWrite(pinR, R1);
-        analogWrite(pinG, G1);
-        analogWrite(pinB, BE1);
-        break;
-
-      case 115 ... 164:
-        ValR = R2;
-        ValG = G2;
-        analogWrite(pinR, R2);
-        analogWrite(pinG, G2);
-        analogWrite(pinB, B2);   
-        break;
-
-      case 165 ... 204:
-        ValR = R3;
-        ValG = G3;
-        analogWrite(pinR, R3);
-        analogWrite(pinG, G3);
-        analogWrite(pinB, B3);    
-        break;
-
-      case 205 ... 500:
-        ValR = R4;
-        ValG = G4;
-        analogWrite(pinR, R4);
-        analogWrite(pinG, G4);
-        analogWrite(pinB, B4);     
-        break;
-      }
   
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 // for rotation speed - updates max speed level in relation to the perceived stress level
@@ -317,35 +347,22 @@ void leds(void *pvParameters) {
   }
 }
 
-void getData() {
-  if (Firebase.RTDB.getInt(&fbdo, "/Stress/value")) { // schema according to Darren(?!)
-    if (fbdo.dataType() == "int") {
-      HR = fbdo.intData();
-      Serial.println(HR);
-    }
-  }
-  else {
-    Serial.println(fbdo.errorReason());
-  }
-}
-
 void loop() {
-  if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)){
-    getData();
-  }
-  delay(5000); // 5 Seconds
+  // delay(1000); // 1 Seconds
 }
 
 
 void fadetocolour (int pin1, int pin2) { //gradually decreases both green and red light so everything turns bluer and bluer
   byte ValA = ValR - counter;
   byte ValB = ValG - counter;
+
   analogWrite(pin1, ValA);
   analogWrite(pin2, ValB);
+
   if (ValA <= 30 || ValB <= 30) { // break condition motor
     doesRotate = false;
-  if (ValA <= 20 || ValB <= 20){ // break condition leds
-    isWhite = false;
+    if (ValA <= 20 || ValB <= 20){ // break condition leds
+      isWhite = false;
+    }
   }
-  }
-  }
+}
