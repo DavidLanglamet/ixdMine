@@ -27,14 +27,14 @@ const minReadingsThreshold = 10; // Adjust as needed
 // Function to fetch heart rate data from Fitbit API : https://dev.fitbit.com/build/reference/device-api/heart-rate/
 async function fetchHeartRateData(lastMeditationTime) {
   try {
-    let apiUrl = apiUrl;
+    let url = apiUrl;
     if (lastMeditationTime) {
       // If lastMeditationTime is null, fetch data starting from the first timestamp of the day, so we won't get error
       const today = new Date().toISOString().split('T')[0];
-      apiUrl = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
+      url = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
         }
 
-    const response = await axios.get(apiUrl, {
+    const response = await axios.get(url, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
@@ -134,6 +134,15 @@ function Home() {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  useEffect(() => {
+    // Call the fetchHeartRateData function here
+    fetchHeartRateData(lastMeditationTime).then(heartRateData => {
+      printHeartRateDictionary(heartRateData);
+    }).catch(error => {
+      console.error("Error fetching heart rate data:", error);
+    });
+  }, [lastMeditationTime]);
+
 
   return (
     <>
