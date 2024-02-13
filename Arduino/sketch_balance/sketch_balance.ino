@@ -154,7 +154,7 @@ void connectToFirebase() {
 
 void fetchDataFromFirebase() {
   Serial.println("FetchData");
-  if (Firebase.RTDB.getInt(&fbdo, "/HeartRate/value")) { // schema according to Darren(?!)
+  if (Firebase.RTDB.getInt(&fbdo, "/HeartRate/value")) { 
     if (fbdo.dataType() == "int") {
       HR = fbdo.intData();
       Serial.println(HR);
@@ -165,7 +165,7 @@ void fetchDataFromFirebase() {
     Serial.println(fbdo.errorReason());
   }
 
-  if (Firebase.RTDB.getInt(&fbdo, "/Stress/value")) { // schema according to Darren(?!)
+  if (Firebase.RTDB.getInt(&fbdo, "/Stress/value")) { 
     if (fbdo.dataType() == "int") {
       stress = fbdo.intData();
       Serial.print("stress: ");
