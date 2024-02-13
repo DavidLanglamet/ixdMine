@@ -121,11 +121,13 @@ function Home() {
       console.error("Error writing document:", error);
     }
     
-    if (meditationAudio) {
-      // Play the sound when the button is clicked
-      meditationAudio.play();
-    }
-    console.log({value});
+    setTimeout(() => {
+      if (meditationAudio) {
+        // Play the sound when the button is clicked
+        meditationAudio.play();
+      }
+      console.log({value});
+    }, 3000); // 3000 milliseconds = 3 seconds
   };
   
 
