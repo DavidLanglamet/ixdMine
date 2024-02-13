@@ -55,25 +55,19 @@ bool doesRotate = true; // bool for termination check motor
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-// trial rates 
+// value inits
 
 //Pulse
 
-int HR = 10; // trial heart rate
-int baserate = 60; //trial base rate
-
-// scalation for switch cases for heart rate.
-
-int IR = (int)HR / baserate * 100; // computes individual pulse index
-
-// scalation for Perceived Stress level 
-
-int stress = 100; // stress value for test
+int HR; // heart rate
+int baserate = 60; // average base rate
+int IR; // individual heartrate for later computation
+int stress; // stress value
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 
-// Colour stages for intialisation - to be adjusted later
+// Colour stages for init
 
 // Stage 0 (Red): 
 
@@ -149,8 +143,11 @@ void connectToFirebase() {
   }
   else  {
     Serial.printf("Error Message %s\n", config.signer.signupError.message.c_str());
+    isDemo = true; // lite version is initiated
   }
 }
+
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 void fetchDataFromFirebase() {
   Serial.println("FetchData");
@@ -163,71 +160,19 @@ void fetchDataFromFirebase() {
   }
   else {
     Serial.println(fbdo.errorReason());
+    isDemo = true; // lite version is initiated
   }
 
   if (Firebase.RTDB.getInt(&fbdo, "/Stress/value")) { 
     if (fbdo.dataType() == "int") {
       stress = fbdo.intData();
-      Serial.print("stress: ");
       Serial.println(stress);
     }
   }
   else {
     Serial.println(fbdo.errorReason());
+    isDemo = true; // lite version is initiated    
   }
-}
-
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-void setColor() {
-
-  // depending on IR switch state - maybe needs to be adjusted for fine tune later; also refer to IR calc.
-  
-    Serial.print("Der IR ist: ");
-    Serial.println(IR);
-
-    switch(IR) {
-    
-      case 0 ... 69:
-        ValR = 255;
-        ValG = 30;
-        analogWrite(pinR, R_0);
-        analogWrite(pinG, G_0);
-        analogWrite(pinB, B_0);
-        break;
-
-      case 70 ... 114:
-        ValR = R_1;
-        ValG = G_1;
-        analogWrite(pinR, R_1);
-        analogWrite(pinG, G_1);
-        analogWrite(pinB, B_1);
-        break;
-
-      case 115 ... 164:
-        ValR = R_2;
-        ValG = G_2;
-        analogWrite(pinR, R_2);
-        analogWrite(pinG, G_2);
-        analogWrite(pinB, B_2);   
-        break;
-
-      case 165 ... 204:
-        ValR = R_3;
-        ValG = G_3;
-        analogWrite(pinR, R_3);
-        analogWrite(pinG, G_3);
-        analogWrite(pinB, B_3);    
-        break;
-
-      case 205 ... 500:
-        ValR = R_4;
-        ValG = G_4;
-        analogWrite(pinR, R_4);
-        analogWrite(pinG, G_4);
-        analogWrite(pinB, B_4);     
-        break;
-    }
 }
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -247,6 +192,7 @@ void setup() {
   pinMode(pinG, OUTPUT);
   pinMode(pinB, OUTPUT);
 
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 if (isDemo){
 
@@ -258,39 +204,18 @@ if (isDemo){
     analogWrite(pinG, G_4);
     analogWrite(pinB, B_4);    
 
-// rotation speed init, here for medium speed (2000)
+// rotation speed init, here for speed = 2000
 
     stepper1.setMaxSpeed(2000);
   
 } else {
   setColor();
-
-  
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-// for rotation speed - updates max speed level in relation to the perceived stress level
-
-    switch(stress){
-
-      case 0 ... 19:
-        stepper1.setMaxSpeed(1960);
-
-      case 20 ... 39:
-        stepper1.setMaxSpeed(1970);
-
-      case 40 ... 59:
-        stepper1.setMaxSpeed(1980);
-
-      case 60 ... 79:
-        stepper1.setMaxSpeed(1990);
-
-      case 80 ... 100:
-        stepper1.setMaxSpeed(2000);
-    }
-
-}   
+  setSpeed();
+}
+    
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    //For Motor -> needs to be adjusted for different rotation speeds
+    // init for Motor
     stepper1.setAcceleration(AC);
     stepper1.run();
 
@@ -342,7 +267,7 @@ void leds(void *pvParameters) {
     xSemaphoreTake(taskMutex, portMAX_DELAY);
 
     if (isWhite) {
-      counter = counter + 3;   // normal offset, maybe needs to be adjusted for time
+      counter = counter + 3;   // normal offset, can be adjusted for meditatin time
       fadetocolour(pinR, pinG);
 
     } else {
@@ -361,7 +286,7 @@ void leds(void *pvParameters) {
 }
 
 void loop() {
-  // delay(1000); // 1 Seconds
+
 }
 
 
@@ -378,4 +303,87 @@ void fadetocolour (int pin1, int pin2) { //gradually decreases both green and re
       isWhite = false;
     }
   }
+}
+
+void setColor() {
+
+  // depending on IR switch state
+
+    Serial.print("The IR is: ");
+    Serial.println(IR);
+
+    switch(IR) {
+    
+      case 0 ... 69:
+        ValR = 255;
+        ValG = 30;
+        analogWrite(pinR, R_0);
+        analogWrite(pinG, G_0);
+        analogWrite(pinB, B_0);
+        break;
+
+      case 70 ... 114:
+        ValR = R_1;
+        ValG = G_1;
+        analogWrite(pinR, R_1);
+        analogWrite(pinG, G_1);
+        analogWrite(pinB, B_1);
+        break;
+
+      case 115 ... 164:
+        ValR = R_2;
+        ValG = G_2;
+        analogWrite(pinR, R_2);
+        analogWrite(pinG, G_2);
+        analogWrite(pinB, B_2);   
+        break;
+
+      case 165 ... 204:
+        ValR = R_3;
+        ValG = G_3;
+        analogWrite(pinR, R_3);
+        analogWrite(pinG, G_3);
+        analogWrite(pinB, B_3);    
+        break;
+
+      case 205 ... 500:
+        ValR = R_4;
+        ValG = G_4;
+        analogWrite(pinR, R_4);
+        analogWrite(pinG, G_4);
+        analogWrite(pinB, B_4);     
+        break;
+    }
+}
+
+void setSpeed(){
+  
+  // for rotation speed - updates max speed level in relation to the perceived stress level; similar speeds due to limitations of used HW
+
+    Serial.print("The stress is: ");
+    Serial.println(stress);
+
+    switch(stress){
+
+      case 0 ... 19:
+        stepper1.setMaxSpeed(1960);
+        break;
+
+      case 20 ... 39:
+        stepper1.setMaxSpeed(1970);
+        break;
+
+      case 40 ... 59:
+        stepper1.setMaxSpeed(1980);
+        break;
+
+      case 60 ... 79:
+        stepper1.setMaxSpeed(1990);
+        break;
+
+      case 80 ... 100:
+        stepper1.setMaxSpeed(2000);
+        break;
+    }
+
 }
