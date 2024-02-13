@@ -63,9 +63,9 @@ async function fetchHeartRateData(lastMeditationTime) {
     // Calculate average heart rate for each day
     const resultDictionary = {};
     for (const [day, values] of Object.entries(heartRateDictionary)) {
-      if (values.count >= minReadingsThreshold) {
+      if (values.count >= minReadingsThreshold) { 
         const averageHeartRate = values.sum / values.count;
-        resultDictionary[day] = averageHeartRate.toFixed(2);
+        resultDictionary[day] = averageHeartRate;//.toFixed(2)
       } else {
         resultDictionary[day] = 'no meditation';
       }
@@ -85,6 +85,7 @@ function printHeartRateDictionary(heartRateDictionary) {
   for (const [day, value] of Object.entries(heartRateDictionary)) {
     console.log(`${day}: ${value}`);
   }
+ 
 }
 
 // Home component definition, except line 91 I didn't anything
@@ -138,8 +139,15 @@ function Home() {
     // Call the fetchHeartRateData function here
     fetchHeartRateData(lastMeditationTime).then(heartRateData => {
       printHeartRateDictionary(heartRateData);
+      const averageHeartRates = Object.values(heartRateData);
+      const averageHeartRateSum = averageHeartRates.reduce((acc, val) => acc + parseFloat(val), 0);
+      const averageHeartRate = averageHeartRateSum / averageHeartRates.length;
+      console.log(`Average Heart Rate: ${averageHeartRate.toFixed(2)}`);
+      console.log("Heart rate data received successfully.");
+
     }).catch(error => {
       console.error("Error fetching heart rate data:", error);
+      
     });
   }, [lastMeditationTime]);
 
