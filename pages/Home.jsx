@@ -15,26 +15,26 @@ import meditationSound from './gong.mp3';
 import axios from 'axios';
 
 //const axios = require('axios');
-const clientId = '23RMZN';
-const clientSecret = '722a1a15200ffb520e355a7a40328b1d';
+const clientId = '23PK93';
+const clientSecret = '27d1be11e879978d60107f06a4ba9bd7';
 const redirectUri = 'http://localhost';
 const authorizeUrl = 'https://www.fitbit.com/oauth2/authorize';
-const accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyM1JORkciLCJzdWIiOiI3TVdWNjkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyaHIgcnNsZSIsImV4cCI6MTcwOTg5MTk1OSwiaWF0IjoxNzA3Mjk5OTU5fQ.qbXxYufXSerwRdSoW14UwEFu3qZXLQjz8BvH4O_Kk40"
+const accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyM1BLOTMiLCJzdWIiOiJDNFZTQ1IiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyaHIgcnNsZSIsImV4cCI6MTcyMTMzMjIwOSwiaWF0IjoxNzE4NzQwMjA5fQ.-za3gKlJZmb4qDNRKK-_2nkitaoh5UILYDzqdtHDdC8"
 const apiUrl = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1w.json';
 
-const minReadingsThreshold = 0; // Adjust as needed
+const minReadingsThreshold = 10; // Adjust as needed
 
 // Function to fetch heart rate data from Fitbit API : https://dev.fitbit.com/build/reference/device-api/heart-rate/
 async function fetchHeartRateData(lastMeditationTime) {
   try {
-    let apiUrlx = apiUrl;
+    let url = apiUrl;
     if (lastMeditationTime) {
       // If lastMeditationTime is null, fetch data starting from the first timestamp of the day, so we won't get error
       const today = new Date().toISOString().split('T')[0];
-      apiUrlx = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
+      url = `https://api.fitbit.com/1/user/-/activities/heart/date/${lastMeditationTime}/today.json`; 
         }
 
-    const response = await axios.get(apiUrlx, {
+    const response = await axios.get(url, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
@@ -63,22 +63,13 @@ async function fetchHeartRateData(lastMeditationTime) {
     // Calculate average heart rate for each day
     const resultDictionary = {};
     for (const [day, values] of Object.entries(heartRateDictionary)) {
-      if (values.count >= minReadingsThreshold) {
+      if (values.count >= minReadingsThreshold) { 
         const averageHeartRate = values.sum / values.count;
-        const db = getDatabase();
-        const docRef2 = await set(ref(db, 'HeartRate'), {
-          value: averageHeartRate,
-        });
-        resultDictionary[day] = averageHeartRate.toFixed(2);
+        resultDictionary[day] = averageHeartRate;//.toFixed(2)
       } else {
         resultDictionary[day] = 'no meditation';
-        const db = getDatabase();
-        const docRef2 = await set(ref(db, 'HeartRate'), {
-          value: 0,
-        });
       }
     }
-
 // error handeling
     return resultDictionary;
   } catch (error) {
@@ -94,6 +85,7 @@ function printHeartRateDictionary(heartRateDictionary) {
   for (const [day, value] of Object.entries(heartRateDictionary)) {
     console.log(`${day}: ${value}`);
   }
+ 
 }
 
 // Home component definition, except line 91 I didn't anything
@@ -119,14 +111,13 @@ function Home() {
     try {
       // Add document to database
       const docRef = await set(ref(db, 'Stress'), {
-        value: value,
+        value,
       });
       console.log("Document written to Database");
 
       // Update last meditation time
       const currentTimestamp = new Date().toISOString().split('T')[0];
       setLastMeditationTime(currentTimestamp);
-      console.log(fetchHeartRateData(lastMeditationTime))
     } catch (error) {
       console.error("Error writing document:", error);
     }
@@ -144,6 +135,22 @@ function Home() {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  useEffect(() => {
+    // Call the fetchHeartRateData function here
+    fetchHeartRateData(lastMeditationTime).then(heartRateData => {
+      printHeartRateDictionary(heartRateData);
+      const averageHeartRates = Object.values(heartRateData);
+      const averageHeartRateSum = averageHeartRates.reduce((acc, val) => acc + parseFloat(val), 0);
+      const averageHeartRate = averageHeartRateSum / averageHeartRates.length;
+      console.log(`Average Heart Rate: ${averageHeartRate.toFixed(2)}`);
+      console.log("Heart rate data received successfully.");
+
+    }).catch(error => {
+      console.error("Error fetching heart rate data:", error);
+      
+    });
+  }, [lastMeditationTime]);
+
 
   return (
     <>
